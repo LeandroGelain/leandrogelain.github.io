@@ -15,14 +15,12 @@
 	margin-bottom: 2vw;
 	display:flex;
 	justify-content: center;
-
 }
 hr {
 	color: #fff;
 	background-color: #fff;
 }
 .infos{
-	margin-top: 1.5vw;
 	display: flex;
 	align-items: center;
 }
@@ -49,18 +47,19 @@ hr {
 	color:#ffffff;
 	background-color: rgb(72, 79, 95);
 }
-.spaceTop{
+.spaceAround{
 	margin-top: 2vw;
 	margin-bottom: 2vw;
-	margin-left: 3vw;
-	margin-right: 3vw;
+	margin-left: 1vw;
+	margin-right: 1vw;
 }
 .border-left {
 	margin-top: 1vw;
-	margin-left: 2vw;
+	margin-left: 0vw;
     padding: 0 0 0 2rem;
-    border-left: 0.5rem solid #196864;
-    padding-top: 30px;
+    border-left: 0.2vw solid #196864 !important;
+	padding-top: 30px;
+
 }
 .tecnologias{
 	margin: 1vw 1vw 1vw 1vw;
@@ -70,7 +69,7 @@ hr {
 	display: flex;
 	align-content: flex-start;
 }
-.tecnologiaTitle{
+.subTitle{
 	margin-top: 2vw;
 	font-size: 30px;
 	font-family: 'Oxanium', cursive;
@@ -79,5 +78,43 @@ hr {
 .hrTtitleTec{
 	background-color: #196864;
 	height: 2.5px;
+	max-width: 100px;
 	width: 25vw;
+}
+.titleExp{
+	font-size: 17px;
+	font-weight: bolder;
+	font-family: 'Oxanium', cursive;
+	margin-bottom: 10px;
+}
+.dateExp{
+	font-family: 'Oxanium', cursive;
+	margin-bottom: 10px;
+
+}
+.descExp{
+	margin-left: 1vw;
+	margin-right: 1vw;
+	font-size: 14.5px;
+	font-family: 'Oxanium', cursive;
+	text-align: justify;
+	margin-bottom: 10px;
+
+}
+.prefContent{
+	margin-left: 1vw;
+	margin-right: 1vw;
+	font-size: 15;
+	font-family: 'Oxanium', cursive;
+	text-align: justify;
+	margin-bottom: 10px;
+}
+.contactImg{
+	max-width: 50px;
+	margin:10px;
+}
+.contact{
+	display: flex;
+	align-items: baseline;
+	margin-bottom: 15px;
 }
