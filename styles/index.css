@@ -1,0 +1,83 @@
+.cabeçalho {
+	background-image: linear-gradient(#103240,#196864);
+	height: 100%;
+	font-family: 'Oxanium', cursive;
+}
+.imgProfile {
+	width: 70%;
+	transform: rotate(270deg);
+	border-radius: 100%;
+}
+.imgContainer{
+	max-width: 400px;
+	min-width: 250px;	
+	margin-top: 2vw;
+	margin-bottom: 2vw;
+	display:flex;
+	justify-content: center;
+
+}
+hr {
+	color: #fff;
+	background-color: #fff;
+}
+.infos{
+	margin-top: 1.5vw;
+	display: flex;
+	align-items: center;
+}
+.titleCategory{
+	color: #FFFFFF;
+	font-size: 25px;
+	margin-bottom: 2vw;
+}
+.nameTitle{
+	font-size: 30px;
+	color: #FFFFFF;
+	margin-bottom: 2vw;
+}
+.whiteFont {
+	color:#FFFFFF
+}
+.infosAlign{
+	text-align: justify;
+}
+.colorBG1{
+	background-color: #F0F0F2;
+}
+.colorBG2{
+	color:#ffffff;
+	background-color: rgb(72, 79, 95);
+}
+.spaceTop{
+	margin-top: 2vw;
+	margin-bottom: 2vw;
+	margin-left: 3vw;
+	margin-right: 3vw;
+}
+.border-left {
+	margin-top: 1vw;
+	margin-left: 2vw;
+    padding: 0 0 0 2rem;
+    border-left: 0.5rem solid #196864;
+    padding-top: 30px;
+}
+.tecnologias{
+	margin: 1vw 1vw 1vw 1vw;
+	width: 100px;
+}
+.container {
+	display: flex;
+	align-content: flex-start;
+}
+.tecnologiaTitle{
+	margin-top: 2vw;
+	font-size: 30px;
+	font-family: 'Oxanium', cursive;
+	text-align: center;	
+}
+.hrTtitleTec{
+	background-color: #196864;
+	height: 2.5px;
+	width: 25vw;
+}
