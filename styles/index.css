@@ -110,8 +110,8 @@ hr {
 	margin-bottom: 10px;
 }
 .contactImg{
-	max-width: 50px;
-	margin:10px;
+	width: 50px !important;
+	margin-left:10px !important;;
 }
 .contact{
 	display: flex;
