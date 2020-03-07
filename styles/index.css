@@ -8,7 +8,6 @@ body{
 }
 .imgProfile {
 	width: 70%;
-	transform: rotate(270deg);
 	border-radius: 100%;
 }
 .imgContainer{
@@ -120,4 +119,5 @@ hr {
 	display: flex;
 	align-items: baseline;
 	margin-bottom: 15px;
+	justify-content: space-evenly;
 }
