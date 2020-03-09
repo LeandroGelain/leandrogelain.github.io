@@ -121,3 +121,14 @@ hr {
 	margin-bottom: 15px;
 	justify-content: space-evenly;
 }
+
+.formFeedback{
+	background-image: linear-gradient(#196864,#103240);
+	padding: 3vw;
+	margin-top: 15px;
+	height: 100% !important;
+	width:100% !important ;
+}
+.spaceAroundfooter{
+	margin: 15px 15px 15px 15px;
+}
