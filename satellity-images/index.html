@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="./index.css">
+	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+	<title></title>
+</head>
+
+<body>
+
+	<div class="container-fluid cabeçalho d-flex align-items-center">
+  
+		<div class="name col-12 title">
+			<div class="col-8 text-align-center ">
+				Classificação da cultura da milho via imagem de satélite
+			</div>
+		</div>
+  </div>
+  
+  <div class="container">
+    <div class="row subtitle justify-content-center">
+      <h3>Qual o objetivo desse projeto?</h3>
+    </div>
+    <div class='topic-container'>
+      <p>Esse projeto acadêmico tem como objetivo fazer a coleta de imagens via satélite de fazendas com a cultura de milho ativa e fazer a identificação dessa cultura por meio de algoritmos de inteligência artificial em outras imagens, podendo assim classificar qual fazenda tem milho plantado.</p>
+    </div>
+    <div class="row subtitle justify-content-center">
+      <h3>Materiais e métodos</h3>
+    </div>
+    <div class='topic-container'>
+      <p>Para a criação dos algoritmos está sendo utilizada a linguagem de programação python junto com bibliotecas de suporte ao desenvolvimento de algoritmos de deep learning como o CNN (Convolutional Neural Network).</p>
+      <p>Também está sendo utilizado o software Qgis (sistema de informação geográfica (SIG) que permite a visualização, edição e análise de dados georreferenciados), para coleta de bandas de visão e visualização dos mapas coletados na base de dados do INPE (Instituto Nacional de Pesquisas Espaciais).</p>
+      <p>Para tal coleta está sendo utilizado o satélite CBERS-3 com o sensor MUX (Câmera Multiespectral Regular) que possui resolução de 20 metros e ambas as 4 bandas espectrais, mais uma pancromática (na CCD).Por possuírem um campo de visada de 120 km, auxiliam nos estudos municipais ou regionais. Dada a sua frequência temporal de 26 dias, pode servir de suporte na análise de fenômenos que tenham duração compatível com esta resolução temporal. Essa resolução temporal pode ser melhorada, pois a CCD tem capacidade de visada lateral. Suas bandas estão situadas na faixa espectral do visível e do infravermelho próximo, o que permite bons contrastes entre vegetação e outros tipos de objetos.</p>
+      <p>Também é feito um tratamento na imagem de denominação L4, que consiste um uma imagem ortorretificada, ou seja, imagem com correção radiométrica e correção geométrica de sistema refinada pelo uso de pontos de controle e de um modelo digital de elevação do terreno.</p>
+    </div>
+    <div class="row subtitle justify-content-center">
+      <h3>Como está sendo a execução do projeto?</h3>
+    </div>
+    <div class='topic-container'>
+      <p>Com a identificação dos locais onde se localiza as plantações de milho, foi coletado as imagens desses milharais em 4 faixas do espectro, azul, verde, vermelho, e infra-vermelho próximo.</p>
+    </div>
+    <div class="maize-image-container my-5 row justify-content-center mt-2">
+      <div class="col-4 col-lg-2 justify-content-center">
+        <img src="../assets/maize_images/milho2.png">
+        <p>Imagem em RGB</p>
+      </div>
+      <div class="col-6 col-sm-4 col-lg-2">
+        <img src="../assets/maize_images/milho2_red.png">
+        <p>Banda vermelha</p> 
+      </div>
+      <div class="col-6 col-sm-4 col-lg-2">
+        <img src="../assets/maize_images/milho2_green.png">
+        <p>Banda verde</p> 
+      </div>
+      <div class="col-6 col-sm-4 col-lg-2">
+        <img src="../assets/maize_images/milho2_blue.png">
+        <p>Banda azul</p> 
+      </div>
+      <div class="col-6 col-sm-4 col-lg-2">
+        <img src="../assets/maize_images/milho2_nir.png">
+        <p>Banda de infra-vermelho próximo</p>
+      </div>
+    </div>
+    <div class="topic-container">
+      <p>Logo após está coleta dos locais com os milharais, estamos quebrando as imagens em fragmentos para a começarmos o treinamento da Deep learning.</p>
+      <p>Tendo em mente que o processo de coleta e limpeza dos dados é de grande importância, destinamos bastante tempo na criação dos algoritmos para que tenha uma taxa de acurácia satisfatória.</p>
+    </div>
+    <div class="row subtitle justify-content-center">
+      <h3>Caminhos futuros</h3>
+    </div>
+    <div class="topic-container last-container">
+      <p>Para possíveis implementações, podemos mesclar as imagens com o NDVI de cada região utilizando para coleta softwares e databases com o SATVeg, utilizando o histórico de NDVI de cada região do mapa, como mostrado a seguir:</p>
+        <div class="ndvi-container d-flex justify-content-around my-5">
+          <img src="../assets/maize_images/maize_map_NDVI.png">
+          <img src="../assets/maize_images/maize_graph_ndvi.png">
+        </div>
+      <p>podem assim gerar até uma nova feature de classificação por NDVI.</p>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+</html>
