@@ -44,6 +44,9 @@ hr {
 }
 .colorBG1{
 	background-color: #F0F0F2;
+	border-radius: 10px;
+	margin-top: 25px;
+	margin-bottom: 25px;
 }
 .colorBG2{
 	color:#ffffff;
@@ -131,4 +134,7 @@ hr {
 }
 .spaceAroundfooter{
 	margin: 15px 15px 15px 15px;
+}
+.margin-auto {
+	margin: auto
 }
