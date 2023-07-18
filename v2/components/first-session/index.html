@@ -1,0 +1,23 @@
+<div>
+  <div class="text-container">
+    <p class="h1"><strong>Olá, Tudo bem?</strong></p>
+    <div>
+      <p class="h5 mt-5" id="description"></p>
+    </div>
+    <p class="h6 mt-5 first-session--subscription-container">Atualmente atuo principalmente no desenvolvimento de softwares, tanto no front-end quanto no back-end das aplicações.</p>
+  </div>
+</div>
+
+<script>
+  function getHowManyYearsOld() {
+    const birthday = new Date('08/03/2000');
+    const today = new Date;
+    const diffTime = Math.abs(today - birthday);
+    const diffYears = Math.abs(diffTime / (1000 * 60 * 60 * 24 * 365));
+
+    const description = `Meu nome é Leandro Gelain Anselmo, tenho ${diffYears.toFixed(0)} anos e atualmente sou formado em Big Data no Agronegócio e atuo na area de desenvolvimento de softwares.`
+    document.getElementById('description').innerHTML = description
+  }
+
+  getHowManyYearsOld()
+</script>

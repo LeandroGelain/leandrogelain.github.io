@@ -1,0 +1,31 @@
+.wave-background {
+  z-index: 1;
+  position: absolute;
+}
+
+.profile-image { 
+  padding-left: 110px; 
+  padding-top: 70px;
+}
+
+.profile-image img{
+  width: 250px;
+  border-radius: 100%;
+}
+
+@media screen and (max-width: 1115px) {
+  .wave-background {
+    width: 100%;
+  }
+  .profile-image img{
+    width: 200px;
+    border-radius: 100%;
+    margin-right: 50px;
+  }
+  .profile-image { 
+    padding-top: 50px;
+    padding-left: 0px; 
+    display: flex;
+    justify-content: center;
+  }
+}

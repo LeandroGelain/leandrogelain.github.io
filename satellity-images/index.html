@@ -8,13 +8,11 @@
 	<link rel="stylesheet" href="./index.css">
 	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
-	<title></title>
+	<title>Classificação da cultura do milho via imagem de satélite</title>
 </head>
 
 <body>
-
 	<div class="container-fluid cabeçalho d-flex align-items-center">
-  
 		<div class="name col-12 title">
 			<div class="col-8 text-align-center ">
 				Classificação da cultura do milho via imagem de satélite
@@ -46,23 +44,23 @@
     </div>
     <div class="maize-image-container my-5 row justify-content-center mt-2">
       <div class="col-6 col-sm-4 col-lg-2">
-        <img src="../assets/maize_images/milho2.png">
+        <img alt="milho_default" src="../assets/maize_images/milho2.png">
         <p>Imagem em RGB</p>
       </div>
       <div class="col-6 col-sm-4 col-lg-2">
-        <img src="../assets/maize_images/milho2_red.png">
+        <img alt="milho_red" src="../assets/maize_images/milho2_red.png">
         <p>Banda vermelha</p> 
       </div>
       <div class="col-6 col-sm-4 col-lg-2">
-        <img src="../assets/maize_images/milho2_green.png">
+        <img alt="milho_green" src="../assets/maize_images/milho2_green.png">
         <p>Banda verde</p> 
       </div>
       <div class="col-6 col-sm-4 col-lg-2">
-        <img src="../assets/maize_images/milho2_blue.png">
+        <img alt="milho_blue" src="../assets/maize_images/milho2_blue.png">
         <p>Banda azul</p> 
       </div>
       <div class="col-6 col-sm-4 col-lg-2">
-        <img src="../assets/maize_images/milho2_nir.png">
+        <img alt="milho_nir"src="../assets/maize_images/milho2_nir.png">
         <p>Banda de infra-vermelho próximo</p>
       </div>
     </div>
@@ -76,8 +74,8 @@
     <div class="topic-container last-container">
       <p>Para possíveis implementações, podemos mesclar as imagens com o NDVI de cada região utilizando para coleta softwares e databases com o SATVeg, utilizando o histórico de NDVI de cada região do mapa, como mostrado a seguir:</p>
         <div class="ndvi-container d-flex justify-content-around my-5">
-          <img src="../assets/maize_images/maize_map_NDVI.png">
-          <img src="../assets/maize_images/maize_graph_ndvi.png">
+          <img alt="maize_map_NDVI" src="../assets/maize_images/maize_map_NDVI.png">
+          <img alt="maize_graph_ndvi" src="../assets/maize_images/maize_graph_ndvi.png">
         </div>
       <p>Podem assim gerar até uma nova feature de classificação por NDVI.</p>
     </div>

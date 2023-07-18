@@ -1,0 +1,96 @@
+:root {
+  --light-blue-gray: #6E8E9E;
+  --blue-gray: #2E4756;
+  --dark-blue-gray: #16262E;
+}
+
+body {
+  background-color: var(--blue-gray);
+  color: #F5F5F5;
+  margin: 0px;
+  padding: 0%;
+  max-width: 100vw;
+  font-family: sans-serif; 
+}
+
+#menu-session--items :is(.grid-item, p, img) {
+  position: relative;
+  z-index: 2;
+}
+
+h2 {
+  font-weight: 00;
+  font-size: 100px;
+}
+.menu-session-container {
+  min-width: 500px;
+}
+
+.menu-session--items {
+  padding: 16px;
+}
+
+.first-session--text-container {
+  z-index: 100;
+  margin-top: 40vh;
+  max-width: 600px;
+  text-align: justify;
+}
+
+.row-container {
+  width: 100%;
+  margin-right: 24px;
+}
+
+.grid-item {
+  margin: 10px;
+}
+
+.first-session {
+  background: var(--blue-gray);
+  width: 100%;
+  height: 100vh;
+}
+.second-session {
+  background: var(--light-blue-gray);
+  width: 100%;
+  height: 100vh;
+}
+/* ---- grid ---- */
+
+.grid {
+width: 100%;
+}
+
+.grid:after {
+content: '';
+display: block;
+clear: both;
+}
+
+/* ---- grid-item ---- */
+
+.grid-item {
+height: 120px;
+width: 200px;
+float: left;
+background: var(--blue-gray);
+border-radius: 5px;
+}
+
+.grid-item--width2 { 
+  width: 400px; 
+}
+
+@media screen and (max-width: 1115px) {
+  .first-session--text-container {
+    margin-left: 36px;
+    margin-top: 36px;
+  }
+  .first-session {
+    height: 100vh;
+  }
+  .menu-session-container {
+    width: 100%;
+  }
+}
