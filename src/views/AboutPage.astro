@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { useTranslations, routes, type Lang } from '../i18n';
+import { CAREER_START_YEAR } from '../data/site';
+import { companyCount } from '../data/experience';
+import { spokenLanguages } from '../data/skills';
+
+/**
+ * Foto do perfil: coloque o arquivo em src/assets/ e importe aqui, ex.:
+ *   import photo from '../assets/leandro.jpg';
+ * Enquanto for `undefined`, o placeholder é exibido.
+ */
+const photo: ImageMetadata | undefined = undefined;
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const facts = [
+  { value: new Date().getFullYear() - CAREER_START_YEAR, label: t.about.years },
+  { value: companyCount, label: t.about.companies },
+  { value: spokenLanguages.length, label: t.about.languages },
+];
+---
+
+<Base lang={lang} title={t.meta.about.title} description={t.meta.about.description} active="about" alternates={routes.about}>
+  <section class="about">
+    <div class="about-left">
+      <span class="kicker">02 // {t.nav.about}</span>
+      <h1 class="section-title">{t.about.title}</h1>
+      {photo ? (
+        <Image class="photo" src={photo} alt={t.about.photoAlt} width={680} />
+      ) : (
+        <div class="photo placeholder" role="img" aria-label={t.about.photoAlt}>{t.about.photo}</div>
+      )}
+    </div>
+    <div class="about-right">
+      <p class="lead">{t.about.p1}</p>
+      <p class="body">{t.about.p2}</p>
+      <div class="hr"></div>
+      <dl class="facts">
+        {facts.map((f) => (
+          <div class="fact">
+            <dt>{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 56px; padding: 80px 0 96px;
+  }
+  .about-left { display: flex; flex-direction: column; gap: 20px; }
+  .photo {
+    aspect-ratio: 4 / 5; width: 100%; max-width: 340px; object-fit: cover;
+    border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+  }
+  .photo.placeholder { background: linear-gradient(160deg, var(--color-surface), var(--color-bg)); }
+  img.photo { filter: grayscale(1) contrast(1.05); }
+  .about-right { display: flex; flex-direction: column; gap: 18px; padding-top: 40px; }
+  .lead { font-size: 19px; line-height: 1.65; color: var(--color-neutral-200); text-wrap: pretty; }
+  .body { font-size: 16px; line-height: 1.7; color: var(--color-neutral-400); text-wrap: pretty; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; margin: 0; }
+  .fact { display: flex; flex-direction: column-reverse; gap: 4px; }
+  .fact dd { margin: 0; font-size: 32px; letter-spacing: -.03em; color: var(--color-accent-300); }
+  .fact dt { font-size: 13px; color: var(--color-neutral-500); }
+</style>

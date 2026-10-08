@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+
+# Senhas dos cases protegidos
+.env
+.env.*
+!.env.example
+
+# Markdown em texto claro dos cases protegidos — NUNCA commitar
+src/content/protected/*
+!src/content/protected/README.md

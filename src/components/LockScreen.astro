@@ -1,0 +1,166 @@
+---
+import { useTranslations, routes, type Lang } from '../i18n';
+import type { EncryptedPayload } from '../lib/projects';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+  code: string;
+  payload?: EncryptedPayload;
+}
+const { lang, slug, code, payload } = Astro.props;
+const t = useTranslations(lang);
+const cipherPreview = payload ? payload.ciphertext.slice(0, 96) : '—';
+---
+
+<div class="lock" data-lock data-slug={slug} data-lang={lang}>
+  <div class="lock-grid" data-lock-ui>
+    <form class="lock-panel" data-lock-form novalidate>
+      <div class="lock-kicker"><span class="lock-dot" aria-hidden="true"></span><span>{t.lock.kicker} // {code}</span></div>
+      <h2>{t.lock.title}</h2>
+      <p class="lock-text">{t.lock.text}</p>
+      <div class="field">
+        <label for="case-password">{t.lock.label}</label>
+        <input id="case-password" class="input" type="password" name="password" required autocomplete="current-password" placeholder="••••••••••••" />
+      </div>
+      <label class="remember">
+        <input type="checkbox" name="remember" />
+        <span>{t.lock.remember}</span>
+      </label>
+      <p class="lock-error" role="alert" data-lock-error hidden>✕ <span>{t.lock.error}</span></p>
+      <div class="lock-actions">
+        <button class="btn btn-primary" type="submit" data-label={t.lock.button} data-working={t.lock.working}>{t.lock.button}</button>
+        <a class="ask" href={routes.contact[lang]}>{t.lock.ask} →</a>
+      </div>
+    </form>
+    <div class="lock-side" aria-hidden="true">
+      <span>› access --case {code}</span>
+      <span class="lock-side-hl">✕ AES-256-GCM // payload encrypted</span>
+      <span class="lock-cipher">{cipherPreview}</span>
+    </div>
+  </div>
+  <div data-lock-target hidden></div>
+  {payload && <script type="application/json" data-lock-payload set:html={JSON.stringify(payload)} />}
+  <template data-lock-messages data-error={t.lock.error} data-unsupported={t.lock.unsupported}></template>
+</div>
+
+<script>
+  type Payload = { iterations: number; salt: string; iv: string; ciphertext: string };
+
+  const fromB64 = (s: string) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const toB64 = (buf: ArrayBuffer) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+
+  async function deriveKey(password: string, p: Payload, extractable: boolean) {
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', hash: 'SHA-256', salt: fromB64(p.salt), iterations: p.iterations },
+      base,
+      { name: 'AES-GCM', length: 256 },
+      extractable,
+      ['decrypt']
+    );
+  }
+
+  async function decrypt(key: CryptoKey, p: Payload) {
+    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB64(p.iv) }, key, fromB64(p.ciphertext));
+    return new TextDecoder().decode(plain);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-lock]').forEach(async (root) => {
+    const form = root.querySelector<HTMLFormElement>('[data-lock-form]')!;
+    const ui = root.querySelector<HTMLElement>('[data-lock-ui]')!;
+    const target = root.querySelector<HTMLElement>('[data-lock-target]')!;
+    const error = root.querySelector<HTMLElement>('[data-lock-error]')!;
+    const errorText = error.querySelector('span')!;
+    const messages = root.querySelector<HTMLElement>('[data-lock-messages]')!.dataset;
+    const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const payloadEl = root.querySelector('[data-lock-payload]');
+    const payload: Payload | null = payloadEl ? JSON.parse(payloadEl.textContent!) : null;
+    const storageKey = `case-key:${root.dataset.slug}:${root.dataset.lang}`;
+
+    const reveal = (html: string) => {
+      target.innerHTML = html;
+      target.hidden = false;
+      ui.remove();
+    };
+    const fail = (message: string) => {
+      errorText.textContent = message;
+      error.hidden = false;
+      form.classList.add('has-error');
+    };
+
+    // Chave lembrada nesta sessão (a chave derivada, nunca a senha).
+    if (payload) {
+      try {
+        const saved = sessionStorage.getItem(storageKey);
+        if (saved) {
+          const key = await crypto.subtle.importKey('raw', fromB64(saved), 'AES-GCM', false, ['decrypt']);
+          reveal(await decrypt(key, payload));
+          return;
+        }
+      } catch {
+        try { sessionStorage.removeItem(storageKey); } catch {}
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!payload) return fail(messages.error!);
+      if (!crypto?.subtle) return fail(messages.unsupported!);
+      const data = new FormData(form);
+      const password = String(data.get('password') ?? '');
+      if (!password) return fail(messages.error!);
+      const remember = data.get('remember') === 'on';
+
+      button.disabled = true;
+      button.textContent = button.dataset.working!;
+      error.hidden = true;
+      form.classList.remove('has-error');
+      try {
+        const key = await deriveKey(password, payload, remember);
+        const html = await decrypt(key, payload); // senha errada → falha do GCM
+        if (remember) {
+          try { sessionStorage.setItem(storageKey, toB64(await crypto.subtle.exportKey('raw', key))); } catch {}
+        }
+        reveal(html);
+      } catch {
+        fail(messages.error!);
+        button.disabled = false;
+        button.textContent = button.dataset.label!;
+        form.querySelector<HTMLInputElement>('input[type=password]')!.select();
+      }
+    });
+  });
+</script>
+
+<style>
+  .lock-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 40px; align-items: start;
+  }
+  .lock-panel {
+    display: flex; flex-direction: column; gap: 18px; padding: 28px; max-width: 440px;
+    border-radius: var(--radius-lg); background: #051C30; box-shadow: var(--shadow-sm);
+    transition: box-shadow .2s;
+  }
+  .lock-panel.has-error { box-shadow: 0 0 0 1px var(--color-accent), 0 0 24px color-mix(in srgb, var(--color-accent) 25%, transparent); }
+  .lock-kicker {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--color-accent-300);
+  }
+  .lock-dot { width: 8px; height: 8px; flex: none; background: var(--color-accent); box-shadow: 0 0 10px var(--color-accent); }
+  .lock-panel h2 { font-size: 25px; letter-spacing: -.02em; }
+  .lock-text { font-size: 14px; line-height: 1.6; color: var(--color-neutral-400); }
+  .remember { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-neutral-400); cursor: pointer; }
+  .remember input { accent-color: var(--color-accent); width: 16px; height: 16px; margin: 0; }
+  .lock-error { font-size: 13px; color: var(--color-accent-300); }
+  .lock-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ask { padding: 8px 0; font-size: 13px; text-decoration: none; color: #AFD7FA; }
+  .ask:hover { color: var(--color-accent-300); }
+  .lock-side {
+    display: flex; flex-direction: column; gap: 10px; padding-top: 8px;
+    font-family: var(--font-mono); font-size: 12px; line-height: 1.8; color: var(--color-neutral-600);
+  }
+  .lock-side-hl { color: var(--color-accent-300); }
+  .lock-cipher { word-break: break-all; opacity: .6; }
+</style>

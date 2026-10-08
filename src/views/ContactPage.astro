@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { useTranslations, routes, type Lang } from '../i18n';
+import { contactLinks } from '../data/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t.meta.contact.title} description={t.meta.contact.description} active="contact" alternates={routes.contact}>
+  <section class="contact">
+    <div class="contact-left">
+      <span class="kicker">06 // {t.nav.contact}</span>
+      <h1>{t.contact.titleA} <span class="hl">{t.contact.titleB}</span></h1>
+      <p class="sub">{t.contact.sub}</p>
+      <ul class="links">
+        {contactLinks.map((link) => (
+          <li>
+            <a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
+              <span class="link-label">{link.label}</span>
+              <span>{link.value} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <ContactForm lang={lang} />
+  </section>
+</Base>
+
+<style>
+  .contact {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 56px; padding: clamp(64px, 10vw, 120px) 0 96px;
+  }
+  .contact-left { display: flex; flex-direction: column; gap: 20px; }
+  .contact-left h1 { font-size: clamp(36px, 5.5vw, 64px); letter-spacing: -.035em; line-height: 1.02; }
+  .sub { font-size: 16px; color: var(--color-neutral-400); max-width: 440px; }
+  .links { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; }
+  .links a {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    min-height: 44px; padding: 16px 0; border-top: 1px solid var(--color-divider);
+    text-decoration: none; color: var(--color-text); overflow-wrap: anywhere;
+  }
+  .links a:hover { color: var(--color-accent-300); }
+  .link-label { font-size: 12px; letter-spacing: .18em; color: var(--color-neutral-500); }
+</style>

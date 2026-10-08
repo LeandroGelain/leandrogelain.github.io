@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import LockScreen from '../components/LockScreen.astro';
+import { useTranslations, routes, projectPath, type Lang } from '../i18n';
+import { getEncryptedPayload, type Project } from '../lib/projects';
+import { renderCaseBlocks } from '../lib/case-body.mjs';
+
+interface Props { lang: Lang; project: Project; next: Project }
+const { lang, project, next } = Astro.props;
+const t = useTranslations(lang);
+const d = project.data;
+const locked = d.protected;
+const isArticle = !locked && d.layout === 'article';
+const blocks = locked || isArticle ? '' : renderCaseBlocks(project.body ?? '');
+const Article = isArticle ? (await render(project)).Content : null;
+---
+
+<Base
+  lang={lang}
+  title={`${d.title} — ${t.meta.work.title}`}
+  description={locked ? t.work.lockedSummary : (d.summary ?? t.meta.work.description)}
+  active="work"
+  alternates={{ pt: projectPath(project.slug, 'pt'), en: projectPath(project.slug, 'en') }}
+  noindex={locked}
+>
+  <article class="detail">
+    <a class="btn btn-ghost back" href={routes.work[lang]}>← {t.work.back}</a>
+
+    <header class="detail-head">
+      <span class="kicker">{d.code} // {d.type}</span>
+      <h1>{d.title}</h1>
+      {!locked && d.summary && <p class="case-summary">{d.summary}</p>}
+    </header>
+
+    <dl class="meta">
+      <div><dt class="label">{t.work.role}</dt><dd>{d.role}</dd></div>
+      <div><dt class="label">{t.work.period}</dt><dd>{d.year}</dd></div>
+      <div><dt class="label">STACK</dt><dd>{d.stack}</dd></div>
+    </dl>
+
+    {locked ? (
+      <LockScreen lang={lang} slug={project.slug} code={d.code} payload={getEncryptedPayload(project.slug, lang)} />
+    ) : (
+      <div class="case-content">
+        {d.cover ? (
+          <Image class="case-cover" src={d.cover} alt={d.coverAlt ?? d.title} width={1400} />
+        ) : (
+          <div class="case-cover placeholder">{t.work.cover}</div>
+        )}
+        {Article ? (
+          <div class="case-article"><Article /></div>
+        ) : (
+          <Fragment set:html={blocks} />
+        )}
+      </div>
+    )}
+
+    <a class="next" href={projectPath(next.slug, lang)}>
+      <span class="label">{t.work.next}</span>
+      <span class="next-title">{next.data.title} →</span>
+    </a>
+  </article>
+</Base>
+
+<style>
+  .detail { display: flex; flex-direction: column; gap: 40px; padding: 56px 0 96px; }
+  .back { align-self: flex-start; padding: 8px 12px; }
+  .detail-head { display: flex; flex-direction: column; gap: 16px; max-width: 820px; }
+  .detail-head h1 { font-size: clamp(40px, 6vw, 72px); line-height: 1; letter-spacing: -.035em; }
+  .meta {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin: 0;
+    padding: 20px 0; border-top: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider);
+  }
+  .meta div { display: flex; flex-direction: column; gap: 4px; }
+  .meta dd { margin: 0; }
+  .next {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 28px 0; border-top: 1px solid var(--color-divider);
+    text-decoration: none; color: var(--color-text);
+  }
+  .next:hover, .next:hover .next-title { color: var(--color-accent-300); }
+  .next-title { font-size: clamp(22px, 3vw, 32px); letter-spacing: -.02em; }
+</style>

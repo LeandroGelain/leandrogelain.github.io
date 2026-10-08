@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, routes, l, type Lang } from '../i18n';
+import { experience, durationSince } from '../data/experience';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const items = experience.map((e) => ({
+  role: l(e.role, lang),
+  company: e.company,
+  place: l(e.place, lang),
+  period: l(e.period, lang),
+  duration: l(e.since ? durationSince(e.since) : e.duration!, lang),
+  current: Boolean(e.since),
+}));
+---
+
+<Base lang={lang} title={t.meta.experience.title} description={t.meta.experience.description} active="experience" alternates={routes.experience}>
+  <section class="exp">
+    <header class="exp-head">
+      <span class="kicker">03 // {t.nav.experience}</span>
+      <h1 class="section-title">{t.experience.title}</h1>
+    </header>
+    <ol class="timeline">
+      {items.map((e) => (
+        <li class="item">
+          <span class="period">{e.period}</span>
+          <div class="rail" aria-hidden="true">
+            <span class:list={['dot', { 'is-current': e.current }]}></span>
+            <span class="line"></span>
+          </div>
+          <div class="info">
+            <h2>{e.role}</h2>
+            <span class="company">{e.company} · {e.place}</span>
+            <span class="duration">{e.duration}</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .exp { display: flex; flex-direction: column; padding: 80px 0 96px; }
+  .exp-head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .item { display: grid; grid-template-columns: minmax(130px, 200px) 24px minmax(0, 1fr); gap: 20px; }
+  .period { font-size: 13px; color: var(--color-neutral-500); font-variant-numeric: tabular-nums; padding-top: 4px; }
+  .rail { display: flex; flex-direction: column; align-items: center; }
+  .dot {
+    width: 11px; height: 11px; margin-top: 5px; flex: none;
+    border: 1px solid var(--color-accent); background: #0F1026;
+  }
+  .dot.is-current { background: var(--color-accent); box-shadow: 0 0 12px var(--color-accent); }
+  .line { flex: 1; width: 1px; background: linear-gradient(#3f85a8, transparent); }
+  .info { display: flex; flex-direction: column; gap: 6px; padding-bottom: 40px; }
+  .info h2 { font-size: 20px; }
+  .company { font-size: 14px; color: var(--color-accent-300); }
+  /* neutral-500 (handoff: 600) para manter contraste AA */
+  .duration { font-size: 13px; color: var(--color-neutral-500); }
+
+  @media (max-width: 560px) {
+    .item { grid-template-columns: 24px minmax(0, 1fr); column-gap: 14px; }
+    .period { grid-column: 2; grid-row: 1; padding-top: 0; }
+    .rail { grid-column: 1; grid-row: 1 / span 2; }
+    .info { grid-column: 2; }
+  }
+</style>

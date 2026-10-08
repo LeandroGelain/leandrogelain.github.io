@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "experience": "Experiência",
+    "work": "Projetos",
+    "stack": "Stack",
+    "contact": "Contato"
+  },
+  "menu": "MENU",
+  "close": "FECHAR",
+  "skip": "Pular para o conteúdo",
+  "langLabel": "Idioma",
+  "footer": { "copy": "LEANDRO GELAIN · POMPEIA, SP", "end": "END OF TRANSMISSION ▮" },
+
+  "meta": {
+    "siteName": "Leandro Gelain — Software Engineer",
+    "home": { "title": "Leandro Gelain — Engenheiro de Software Full Stack", "description": "Engenheiro de software full stack com foco em Ruby on Rails e React. Produtos web, APIs e automações para empresas que precisam de software confiável." },
+    "about": { "title": "Sobre — Leandro Gelain", "description": "Quem é Leandro Gelain: trajetória de estagiário a desenvolvedor pleno em produtos SaaS, formação em Big Data e visão de produto." },
+    "experience": { "title": "Experiência — Leandro Gelain", "description": "Log de experiência profissional: Nexaas, DPOnet, Leavening Accelerator e Agro Academy." },
+    "work": { "title": "Projetos — Leandro Gelain", "description": "Cases selecionados de produtos SaaS, plataformas full stack e automação." },
+    "stack": { "title": "Stack — Leandro Gelain", "description": "Ferramentas e práticas: Ruby on Rails, Node.js, Python, React, SQL, MongoDB, Selenium." },
+    "contact": { "title": "Contato — Leandro Gelain", "description": "Conte sobre seu projeto — resposta em até 48h com próximos passos e uma estimativa inicial." },
+    "notFound": { "title": "404 — Sinal perdido", "description": "Página não encontrada." }
+  },
+
+  "home": {
+    "kicker": "Software Engineer · Full Stack · Freelance",
+    "heroA": "Sistemas robustos para quem quer chegar",
+    "heroB": "ao futuro primeiro.",
+    "sub": "Sou Leandro Gelain, engenheiro de software full stack com foco em Ruby on Rails e React. Desenvolvo produtos web, APIs e automações para empresas que precisam de software confiável.",
+    "ctaHire": "Iniciar um projeto →",
+    "ctaWork": "Ver cases",
+    "uptime": "programando desde 2019",
+    "status": "✓ aceitando novos projetos",
+    "servicesLabel": "SERVIÇOS // O QUE POSSO CONSTRUIR"
+  },
+
+  "about": {
+    "title": "Quem está do outro lado do terminal.",
+    "p1": "Programo desde 2019, passando de estagiário a desenvolvedor pleno em produtos SaaS. Hoje atuo como Desenvolvedor Back-End Pleno na Nexaas, trabalhando com Ruby on Rails.",
+    "p2": "Tenho base em Python, JavaScript, Node.js, React, bancos SQL e NoSQL (MongoDB) e automação com Selenium. Sou formado em Big Data no Agronegócio pela Fatec Shunji Nishimura e já atuei como sócio em uma aceleradora de startups — por isso penso em produto, não só em código.",
+    "photo": "[ FOTO ]",
+    "photoAlt": "Foto de Leandro Gelain",
+    "years": "anos programando",
+    "companies": "empresas",
+    "languages": "idiomas"
+  },
+
+  "experience": { "title": "Log de experiência." },
+
+  "work": {
+    "title": "Cases selecionados.",
+    "viewCase": "Ver case",
+    "thumb": "[ IMAGEM ]",
+    "locked": "🔒 RESTRITO",
+    "lockedSummary": "Case sob acordo de confidencialidade. Acesso com senha.",
+    "back": "Todos os projetos",
+    "role": "PAPEL",
+    "period": "PERÍODO",
+    "next": "PRÓXIMO CASE",
+    "cover": "[ SCREENSHOT DO PROJETO ]"
+  },
+
+  "lock": {
+    "kicker": "ACESSO RESTRITO",
+    "title": "Case confidencial.",
+    "text": "Este case está protegido por confidencialidade. Insira a senha fornecida.",
+    "label": "Senha",
+    "button": "Desbloquear →",
+    "working": "Verificando…",
+    "error": "Senha incorreta.",
+    "unsupported": "Seu navegador não suporta a descriptografia deste case.",
+    "remember": "Lembrar nesta sessão",
+    "ask": "Pedir acesso"
+  },
+
+  "stack": {
+    "title": "Ferramentas e práticas.",
+    "languages": "IDIOMAS",
+    "certs": "CERTIFICAÇÕES"
+  },
+
+  "contact": {
+    "titleA": "Vamos construir algo",
+    "titleB": "juntos.",
+    "sub": "Conte sobre seu projeto — respondo em até 48h com próximos passos e uma estimativa inicial.",
+    "name": "Nome",
+    "email": "E-mail",
+    "type": "Tipo de projeto",
+    "types": ["Web app", "API / Back-end", "Automação"],
+    "message": "Sobre o projeto",
+    "send": "Enviar mensagem →",
+    "sending": "Enviando…",
+    "sent": "Mensagem enviada ✓",
+    "error": "Não foi possível enviar agora. Escreva direto para",
+    "subject": "Novo contato pelo portfólio"
+  },
+
+  "notFound": {
+    "kicker": "ERRO 404 // SINAL PERDIDO",
+    "title": "Essa rota não existe no mapa.",
+    "text": "O endereço pode ter mudado ou nunca ter existido.",
+    "cta": "Voltar ao início →"
+  }
+}

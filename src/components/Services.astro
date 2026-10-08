@@ -1,0 +1,35 @@
+---
+import { useTranslations, l, type Lang } from '../i18n';
+import { services } from '../data/services';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="services" aria-labelledby="services-label">
+  <h2 id="services-label" class="kicker">{t.home.servicesLabel}</h2>
+  <div class="services-grid">
+    {services.map((s) => (
+      <article class="service">
+        <span class="service-code">{s.code}</span>
+        <h3>{l(s.title, lang)}</h3>
+        <p>{l(s.text, lang)}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .services { display: flex; flex-direction: column; gap: 32px; padding: 64px 0 96px; }
+  .services .kicker { font-weight: 400; line-height: 1.55; }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .service {
+    display: flex; flex-direction: column; gap: 10px; padding: 22px;
+    border-radius: var(--radius-md); box-shadow: 0 0 0 1px #1c3a4e;
+    background: color-mix(in srgb, #051C30 60%, transparent);
+  }
+  .service-code { font-size: 11px; letter-spacing: .2em; color: var(--color-accent-300); }
+  .service h3 { font-size: 20px; }
+  .service p { font-size: 14px; color: var(--color-neutral-400); }
+</style>

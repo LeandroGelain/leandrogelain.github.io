@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, routes, l, type Lang } from '../i18n';
+import { skillGroups, spokenLanguages, certifications } from '../data/skills';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t.meta.stack.title} description={t.meta.stack.description} active="stack" alternates={routes.stack}>
+  <section class="stack">
+    <header class="stack-head">
+      <span class="kicker">05 // STACK</span>
+      <h1 class="section-title">{t.stack.title}</h1>
+    </header>
+
+    <dl class="groups">
+      {skillGroups.map((g) => (
+        <div class="group">
+          <dt>{l(g.label, lang)}</dt>
+          <dd>{g.items.map((i) => <span class="tag tag-outline">{l(i, lang)}</span>)}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="cols">
+      <div class="col">
+        <h2 class="kicker">{t.stack.languages}</h2>
+        {spokenLanguages.map((s) => (
+          <div class="lang">
+            <div class="lang-row"><span>{l(s.name, lang)}</span><span class="lang-level">{l(s.level, lang)}</span></div>
+            <div class="bar" role="meter" aria-valuenow={s.value} aria-valuemin="0" aria-valuemax="100" aria-label={l(s.name, lang)}>
+              <div class="bar-fill" style={`width:${s.value}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="col">
+        <h2 class="kicker">{t.stack.certs}</h2>
+        <ul class="certs">
+          {certifications.map((c) => <li><span class="marker" aria-hidden="true">▸</span><span>{l(c, lang)}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stack { display: flex; flex-direction: column; gap: 48px; padding: 80px 0 96px; }
+  .stack-head { display: flex; flex-direction: column; gap: 16px; }
+  .groups { display: flex; flex-direction: column; margin: 0; }
+  .group {
+    display: grid; grid-template-columns: minmax(140px, 240px) minmax(0, 1fr); gap: 24px;
+    padding: 22px 0; border-top: 1px solid var(--color-divider);
+  }
+  .group dt { font-size: 12px; letter-spacing: .18em; color: var(--color-neutral-500); padding-top: 4px; }
+  .group dd { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 40px; }
+  .col { display: flex; flex-direction: column; gap: 14px; }
+  .col .kicker { font-weight: 400; line-height: 1.55; }
+  .lang { display: flex; flex-direction: column; gap: 6px; }
+  .lang-row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+  .lang-level { color: var(--color-neutral-500); }
+  .bar { height: 2px; background: #1c3a4e; }
+  .bar-fill { height: 100%; background: var(--color-accent); box-shadow: 0 0 8px var(--color-accent); }
+  .certs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .certs li { display: flex; gap: 12px; font-size: 14px; color: var(--color-neutral-300); }
+  .marker { color: var(--color-accent); }
+
+  @media (max-width: 560px) {
+    .group { grid-template-columns: 1fr; gap: 12px; }
+  }
+</style>

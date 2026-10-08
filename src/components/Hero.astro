@@ -1,0 +1,151 @@
+---
+import { useTranslations, routes, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const a = t.home.heroA;
+const b = t.home.heroB;
+
+const terminal = [
+  { kind: 'cmd', text: '› whoami' },
+  { kind: 'out', text: 'leandro gelain — software engineer' },
+  { kind: 'cmd', text: '› cat stack.txt' },
+  { kind: 'out', text: 'ruby on rails · react · node · python' },
+  { kind: 'cmd', text: '› uptime' },
+  { kind: 'out', text: t.home.uptime },
+  { kind: 'cmd', text: '› status --freelance' },
+  { kind: 'ok', text: t.home.status },
+];
+---
+
+<section class="hero" id="hero">
+  <div class="grid-floor" aria-hidden="true"><div class="grid-plane"></div></div>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="hero-kicker"><span class="kicker-line" aria-hidden="true"></span><span>{t.home.kicker}</span></div>
+
+      <h1 class="hero-title" aria-label={`${a} ${b}`}>
+        <span class="ghost" aria-hidden="true">{a} <span>{b}</span>▮</span>
+        <span class="typed" aria-hidden="true" data-a={`${a} `} data-b={b}><span class="ta">{a} </span><span class="tb hl">{b}</span><span class="caret"></span></span>
+      </h1>
+
+      <p class="hero-sub">{t.home.sub}</p>
+
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href={routes.contact[lang]}>{t.home.ctaHire}</a>
+        <a class="btn btn-ghost" href={routes.work[lang]}>{t.home.ctaWork}</a>
+      </div>
+    </div>
+
+    <div class="terminal" aria-label="Terminal">
+      <div class="term-bar"><span>~/leandro — zsh</span><span class="term-online">● ONLINE</span></div>
+      <div class="term-body">
+        {terminal.map((line) => <div class:list={['term-line', `term-${line.kind}`]}>{line.text}</div>)}
+        <div class="term-line term-prompt" aria-hidden="true"><span>›</span><span class="term-caret"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById('hero');
+    if (!root || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var typed = root.querySelector('.typed');
+    var ta = typed.querySelector('.ta');
+    var tb = typed.querySelector('.tb');
+    var a = typed.getAttribute('data-a');
+    var b = typed.getAttribute('data-b');
+    var lines = root.querySelectorAll('.term-line');
+    ta.textContent = '';
+    tb.textContent = '';
+    lines.forEach(function (l) { l.classList.add('is-pending'); });
+    var i = 0;
+    var total = a.length + b.length;
+    var timer = setInterval(function () {
+      i++;
+      ta.textContent = a.slice(0, i);
+      tb.textContent = b.slice(0, Math.max(0, i - a.length));
+      if (i >= total) {
+        clearInterval(timer);
+        lines.forEach(function (l, k) {
+          setTimeout(function () { l.classList.remove('is-pending'); }, 250 * (k + 1));
+        });
+      }
+    }, 42);
+  })();
+</script>
+
+<style>
+  .hero { position: relative; overflow: hidden; padding: clamp(32px, 5vw, 64px) 0 140px; }
+
+  .grid-floor {
+    position: absolute; left: -20%; right: -20%; bottom: -40px; height: 300px;
+    perspective: 340px; pointer-events: none;
+    -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+    mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+  }
+  .grid-plane {
+    position: absolute; inset: 0; transform: rotateX(62deg); transform-origin: bottom;
+    background-image: linear-gradient(#3f85a8 1px, transparent 1px), linear-gradient(90deg, #3f85a8 1px, transparent 1px);
+    background-size: 56px 56px; opacity: .55;
+    animation: grid-scroll 4s linear infinite;
+  }
+  @keyframes grid-scroll { from { background-position-y: 0; } to { background-position-y: 56px; } }
+
+  .hero-grid {
+    position: relative; display: grid; gap: 56px; align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  }
+  .hero-copy { display: flex; flex-direction: column; gap: 26px; }
+  .hero-kicker {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #f7a1ad;
+  }
+  .kicker-line { width: 28px; height: 1px; flex: none; background: #EE4B62; }
+
+  .hero-title {
+    position: relative; font-size: clamp(40px, 6vw, 76px);
+    line-height: .98; letter-spacing: -.035em; font-weight: 500;
+  }
+  .ghost { visibility: hidden; }
+  .typed { position: absolute; inset: 0; }
+  .caret {
+    display: inline-block; width: .08em; height: .82em; margin-left: .06em; vertical-align: -.06em;
+    background: var(--color-accent); box-shadow: 0 0 12px var(--color-accent);
+    animation: blink 1s steps(1) infinite;
+  }
+
+  .hero-sub { font-size: 17px; line-height: 1.6; max-width: 500px; color: var(--color-neutral-400); text-wrap: pretty; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .terminal {
+    width: 100%; max-width: 480px; justify-self: center; align-self: center;
+    border-radius: var(--radius-lg); overflow: hidden;
+    background: color-mix(in srgb, #051C30 88%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    box-shadow: 0 0 0 1px #3a5468, 0 0 40px color-mix(in srgb, #53A0C4 18%, transparent), 0 20px 50px rgba(0,0,0,.55);
+  }
+  .term-bar {
+    display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px;
+    border-bottom: 1px solid var(--color-divider);
+    font-size: 11px; letter-spacing: .14em; color: var(--color-neutral-500);
+  }
+  .term-online { color: #AFD7FA; }
+  .term-body {
+    display: flex; flex-direction: column; padding: 22px 20px 26px;
+    font-family: var(--font-mono); font-size: 14px; line-height: 1.9;
+  }
+  .term-line { transition: opacity .2s; }
+  .term-line.is-pending { opacity: 0; }
+  .term-cmd { color: #f7a1ad; }
+  .term-out { color: #AFD7FA; }
+  .term-ok { color: #EE4B62; }
+  .term-prompt { display: flex; gap: 8px; color: var(--color-accent); }
+  .term-caret {
+    width: 9px; height: 18px; margin-top: 6px; background: #f7a1ad;
+    animation: blink 1s steps(1) infinite;
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import { useTranslations, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const t = useTranslations(Astro.props.lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <span>© {year} {t.footer.copy}</span>
+  <span>{t.footer.end}</span>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    padding: 20px var(--gutter);
+    border-top: 1px solid var(--color-divider);
+    /* neutral-500 em vez do neutral-600 do handoff: 600 dá contraste 3,7:1 (abaixo do AA). */
+    font-size: 12px; letter-spacing: .12em; color: var(--color-neutral-500);
+  }
+</style>

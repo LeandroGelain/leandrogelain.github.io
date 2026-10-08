@@ -1,0 +1,22 @@
+:root {
+  --color-bg: #0F1026; --color-surface: #051C30; --color-deep: #042F40;
+  --color-text: #e6f1fb;
+  --color-accent: #EE4B62;   /* vermelho neon — ações, destaques, glow */
+  --color-accent-2: #53A0C4; /* ciano — grade, timeline, status */
+  --color-divider: color-mix(in srgb, #AFD7FA 16%, transparent);
+  --color-neutral-100: #e8f3fd; --color-neutral-200: #cfe5f8; --color-neutral-300: #AFD7FA;
+  --color-neutral-400: #8fb6d0; --color-neutral-500: #6f93ab; --color-neutral-600: #527287;
+  --color-neutral-700: #3a5468; --color-neutral-800: #1c3a4e; --color-neutral-900: #0c2638;
+  --color-accent-100: #fde6e9; --color-accent-200: #fbc8cf; --color-accent-300: #f7a1ad;
+  --color-accent-400: #f37385; --color-accent-500: #EE4B62; --color-accent-600: #c93a50;
+  --color-accent-700: #9e2d40; --color-accent-800: #5f1e2c; --color-accent-900: #2e1220;
+  --color-accent-2-300: #AFD7FA; --color-accent-2-500: #53A0C4; --color-accent-2-600: #3f85a8;
+  --color-accent-2-700: #2f6a88; --color-accent-2-800: #042F40; --color-accent-2-900: #051C30;
+  --font: "Inter", system-ui, sans-serif; --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 14px;
+  --shadow-sm: 0 0 0 1px #1c3a4e;
+  --shadow-md: 0 0 0 1px #3a5468, 0 6px 18px rgba(0,0,0,.55);
+  --glow: 0 0 24px color-mix(in srgb, #EE4B62 60%, transparent);
+  --gutter: clamp(20px, 5vw, 64px);
+  color-scheme: dark;
+}

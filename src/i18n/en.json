@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "work": "Work",
+    "stack": "Stack",
+    "contact": "Contact"
+  },
+  "menu": "MENU",
+  "close": "CLOSE",
+  "skip": "Skip to content",
+  "langLabel": "Language",
+  "footer": { "copy": "LEANDRO GELAIN · POMPEIA, SP", "end": "END OF TRANSMISSION ▮" },
+
+  "meta": {
+    "siteName": "Leandro Gelain — Software Engineer",
+    "home": { "title": "Leandro Gelain — Full Stack Software Engineer", "description": "Full stack software engineer focused on Ruby on Rails and React. Web products, APIs and automations for companies that need reliable software." },
+    "about": { "title": "About — Leandro Gelain", "description": "Who Leandro Gelain is: from intern to mid-level developer on SaaS products, a Big Data degree and a product mindset." },
+    "experience": { "title": "Experience — Leandro Gelain", "description": "Professional experience log: Nexaas, DPOnet, Leavening Accelerator and Agro Academy." },
+    "work": { "title": "Work — Leandro Gelain", "description": "Selected case studies of SaaS products, full stack platforms and automation." },
+    "stack": { "title": "Stack — Leandro Gelain", "description": "Tools and practices: Ruby on Rails, Node.js, Python, React, SQL, MongoDB, Selenium." },
+    "contact": { "title": "Contact — Leandro Gelain", "description": "Tell me about your project — reply within 48h with next steps and an initial estimate." },
+    "notFound": { "title": "404 — Signal lost", "description": "Page not found." }
+  },
+
+  "home": {
+    "kicker": "Software Engineer · Full Stack · Freelance",
+    "heroA": "Robust systems for teams who want to reach",
+    "heroB": "the future first.",
+    "sub": "I'm Leandro Gelain, a full stack software engineer focused on Ruby on Rails and React. I build web products, APIs and automations for companies that need reliable software.",
+    "ctaHire": "Start a project →",
+    "ctaWork": "See case studies",
+    "uptime": "coding since 2019",
+    "status": "✓ accepting new projects",
+    "servicesLabel": "SERVICES // WHAT I CAN BUILD"
+  },
+
+  "about": {
+    "title": "Who is on the other side of the terminal.",
+    "p1": "I've been coding since 2019, growing from intern to mid-level developer on SaaS products. Today I'm a Mid-level Back-End Developer at Nexaas, working with Ruby on Rails.",
+    "p2": "My toolkit spans Python, JavaScript, Node.js, React, SQL and NoSQL (MongoDB) databases and Selenium automation. I hold a degree in Big Data for Agribusiness from Fatec Shunji Nishimura and was a partner at a startup accelerator — so I think in product, not just code.",
+    "photo": "[ PHOTO ]",
+    "photoAlt": "Photo of Leandro Gelain",
+    "years": "years coding",
+    "companies": "companies",
+    "languages": "languages"
+  },
+
+  "experience": { "title": "Experience log." },
+
+  "work": {
+    "title": "Selected case studies.",
+    "viewCase": "View case",
+    "thumb": "[ IMAGE ]",
+    "locked": "🔒 RESTRICTED",
+    "lockedSummary": "Case under NDA. Password required.",
+    "back": "All projects",
+    "role": "ROLE",
+    "period": "PERIOD",
+    "next": "NEXT CASE",
+    "cover": "[ PROJECT SCREENSHOT ]"
+  },
+
+  "lock": {
+    "kicker": "RESTRICTED ACCESS",
+    "title": "Confidential case.",
+    "text": "This case is under NDA. Enter the password you were given.",
+    "label": "Password",
+    "button": "Unlock →",
+    "working": "Checking…",
+    "error": "Wrong password.",
+    "unsupported": "Your browser can't decrypt this case.",
+    "remember": "Remember for this session",
+    "ask": "Request access"
+  },
+
+  "stack": {
+    "title": "Tools and practices.",
+    "languages": "LANGUAGES",
+    "certs": "CERTIFICATIONS"
+  },
+
+  "contact": {
+    "titleA": "Let's build something",
+    "titleB": "together.",
+    "sub": "Tell me about your project — I'll reply within 48h with next steps and an initial estimate.",
+    "name": "Name",
+    "email": "E-mail",
+    "type": "Project type",
+    "types": ["Web app", "API / Back-end", "Automation"],
+    "message": "About the project",
+    "send": "Send message →",
+    "sending": "Sending…",
+    "sent": "Message sent ✓",
+    "error": "Couldn't send right now. Write directly to",
+    "subject": "New portfolio contact"
+  },
+
+  "notFound": {
+    "kicker": "ERROR 404 // SIGNAL LOST",
+    "title": "This route isn't on the map.",
+    "text": "The address may have moved or never existed.",
+    "cta": "Back to home →"
+  }
+}

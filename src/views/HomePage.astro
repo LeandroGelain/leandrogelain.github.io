@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import { useTranslations, routes, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t.meta.home.title} description={t.meta.home.description} active="home" alternates={routes.home} detectLanguage={lang === 'pt'}>
+  <Hero lang={lang} />
+  <div class="hr"></div>
+  <Services lang={lang} />
+</Base>
