@@ -3,6 +3,7 @@
 //
 // Entrada:  src/content/protected/{slug}.{pt,en}.md   (texto claro, fora do git)
 //           PROJECT_PW_{SLUG} no .env / ambiente       (senha, fora do git)
+//           PROJECT_RELEASE_TOKEN_{SLUG}               (só para cases com `release`, ver buildDownload)
 // Saída:    src/data/encrypted/{slug}.{lang}.json       ({ salt, iv, ciphertext, iterations }, commitado)
 //
 // O HTML gerado é criptografado com AES-256-GCM; a chave vem de PBKDF2-SHA256
@@ -55,18 +56,53 @@ function inlineImages(html) {
   );
 }
 
-function buildHtml({ data, body }, lang) {
+// Botão de download, visível só após desbloquear. `downloadLabel` e `downloadNote` são opcionais.
+// - `download`: link fixo.
+// - `release` (owner/repo) + `releaseAsset` (regex do nome do arquivo, padrão `\.exe$`): arquivo
+//   da release mais recente, consultada no navegador (src/lib/release-download.ts). O token
+//   de leitura vai dentro do payload criptografado. `{version}` na nota vira a tag da release.
+function buildDownload(data, release) {
+  const label = escapeHtml(String(data.downloadLabel ?? 'Download'));
+  const note = data.downloadNote ? escapeHtml(String(data.downloadNote)) : '';
+  if (release) {
+    const version = '<span data-release-version>…</span>';
+    const text = note.includes('{version}') ? note.replaceAll('{version}', version) : [note, version].filter(Boolean).join(' · ');
+    return `<div class="case-download" data-release-repo="${escapeHtml(release.repo)}" data-release-asset="${escapeHtml(release.asset)}" data-release-token="${escapeHtml(release.token)}"><button class="btn btn-primary" type="button" disabled>${label}</button><span class="case-download-note">${text}</span></div>`;
+  }
+  if (!data.download) return '';
+  return `<div class="case-download"><a class="btn btn-primary" href="${escapeHtml(String(data.download))}" target="_blank" rel="noopener noreferrer">${label}</a>${
+    note ? `<span class="case-download-note">${note}</span>` : ''
+  }</div>`;
+}
+
+function buildHtml({ data, body }, lang, release) {
   const summary = data.summary ? `<p class="case-summary">${escapeHtml(String(data.summary))}</p>` : '';
   const cover = data.cover
     ? `<div class="case-cover${data.coverFull ? ' is-full' : ''}"><img src="${toDataUri(data.cover)}" alt="${escapeHtml(String(data.coverAlt ?? data.title ?? ''))}"></div>`
     : `<div class="case-cover placeholder">${COVER_PLACEHOLDER[lang]}</div>`;
-  // `download` + `downloadLabel` (+ `downloadNote` opcional): botão de download, visível só após desbloquear.
-  const download = data.download
-    ? `<div class="case-download"><a class="btn btn-primary" href="${escapeHtml(String(data.download))}" target="_blank" rel="noopener noreferrer">${escapeHtml(String(data.downloadLabel ?? 'Download'))}</a>${
-        data.downloadNote ? `<span class="case-download-note">${escapeHtml(String(data.downloadNote))}</span>` : ''
-      }</div>`
-    : '';
-  return `<div class="case-content">${summary}${download}${cover}${inlineImages(renderCaseBlocks(body))}</div>`;
+  return `<div class="case-content">${summary}${buildDownload(data, release)}${cover}${inlineImages(renderCaseBlocks(body))}</div>`;
+}
+
+// Confere, com o mesmo token que vai para o navegador, que a release mais recente
+// existe e tem o arquivo. Repositório privado responde 404 sem token (ou com token
+// sem acesso), então o erro aponta para a variável.
+async function checkRelease(repo, asset, token, envName) {
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) throw new Error(`release "${repo}" deve estar no formato owner/repo`);
+  if (token && !token.startsWith('github_pat_')) {
+    throw new Error(`${envName} deve ser um token fine-grained (github_pat_…) só de leitura e só de ${repo}: ele fica acessível a quem tiver a senha do case.`);
+  }
+  const headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const response = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, { headers });
+  if (!response.ok) {
+    throw new Error(`${token ? envName : 'sem token,'} não lê a release mais recente de ${repo} (HTTP ${response.status})${token ? '' : `: defina ${envName} no .env`}.`);
+  }
+  const release = await response.json();
+  const file = release.assets.find((a) => new RegExp(asset).test(a.name));
+  if (!file) throw new Error(`a release ${release.tag_name} de ${repo} não tem arquivo que case com /${asset}/.`);
+  // Quando o token expirar, o botão do case para de funcionar: gere outro e rode de novo.
+  const expires = token ? response.headers.get('github-authentication-token-expiration') ?? 'sem expiração informada' : 'sem token';
+  console.log(`  ${repo}: ${release.tag_name} → ${file.name} (${envName} expira em: ${expires})`);
 }
 
 async function encrypt(plaintext, password) {
@@ -110,7 +146,14 @@ for (const file of files) {
   }
 
   try {
-    const html = buildHtml(parseFrontmatter(readFileSync(join(SRC, file), 'utf8')), lang);
+    const source = parseFrontmatter(readFileSync(join(SRC, file), 'utf8'));
+    let release;
+    if (source.data.release) {
+      const tokenEnv = `PROJECT_RELEASE_TOKEN_${slug.toUpperCase().replace(/-/g, '_')}`;
+      release = { repo: String(source.data.release), asset: String(source.data.releaseAsset ?? '\\.exe$'), token: process.env[tokenEnv] ?? '' };
+      await checkRelease(release.repo, release.asset, release.token, tokenEnv);
+    }
+    const html = buildHtml(source, lang, release);
     const payload = await encrypt(html, password);
     writeFileSync(join(OUT, `${slug}.${lang}.json`), JSON.stringify(payload) + '\n');
     console.log(`✓ ${file} → src/data/encrypted/${slug}.${lang}.json`);
@@ -120,4 +163,6 @@ for (const file of files) {
   }
 }
 
-process.exit(failed ? 1 : 0);
+// Sem process.exit(): chamado depois de um fetch (checkRelease), ele derruba o
+// Node 24 no Windows (assertion em src\win\async.c) em vez de sair com o código.
+process.exitCode = failed ? 1 : 0;

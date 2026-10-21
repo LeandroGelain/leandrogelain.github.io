@@ -72,7 +72,10 @@
     "error": "Senha incorreta.",
     "unsupported": "Seu navegador não suporta a descriptografia deste case.",
     "remember": "Lembrar nesta sessão",
-    "ask": "Pedir acesso"
+    "ask": "Pedir acesso",
+    "downloadWorking": "Preparando download…",
+    "downloadError": "Download indisponível no momento. Fale comigo pelo contato.",
+    "downloadUnsupported": "Este navegador não permite o download. Tente numa janela normal do Chrome ou do Edge."
   },
 
   "stack": {

@@ -72,7 +72,10 @@
     "error": "Wrong password.",
     "unsupported": "Your browser can't decrypt this case.",
     "remember": "Remember for this session",
-    "ask": "Request access"
+    "ask": "Request access",
+    "downloadWorking": "Preparing download…",
+    "downloadError": "Download unavailable right now. Please get in touch.",
+    "downloadUnsupported": "This browser doesn't allow the download. Try a regular Chrome or Edge window."
   },
 
   "stack": {

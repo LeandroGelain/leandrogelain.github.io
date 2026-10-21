@@ -41,10 +41,19 @@ const cipherPreview = payload ? payload.ciphertext.slice(0, 96) : '—';
   </div>
   <div data-lock-target hidden></div>
   {payload && <script type="application/json" data-lock-payload set:html={JSON.stringify(payload)} />}
-  <template data-lock-messages data-error={t.lock.error} data-unsupported={t.lock.unsupported}></template>
+  <template
+    data-lock-messages
+    data-error={t.lock.error}
+    data-unsupported={t.lock.unsupported}
+    data-download-working={t.lock.downloadWorking}
+    data-download-error={t.lock.downloadError}
+    data-download-unsupported={t.lock.downloadUnsupported}
+  ></template>
 </div>
 
 <script>
+  import { setupReleaseDownloads } from '../lib/release-download';
+
   type Payload = { iterations: number; salt: string; iv: string; ciphertext: string };
 
   const fromB64 = (s: string) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
@@ -82,6 +91,11 @@ const cipherPreview = payload ? payload.ciphertext.slice(0, 96) : '—';
       target.innerHTML = html;
       target.hidden = false;
       ui.remove();
+      setupReleaseDownloads(target, {
+        working: messages.downloadWorking!,
+        error: messages.downloadError!,
+        unsupported: messages.downloadUnsupported!,
+      });
     };
     const fail = (message: string) => {
       errorText.textContent = message;

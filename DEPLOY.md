@@ -26,6 +26,7 @@ Tudo que é dinâmico roda no navegador, com JavaScript mínimo embutido nas pá
 
 - animação de digitação do hero e menu mobile;
 - descriptografia dos cases protegidos (Web Crypto API do navegador);
+- download do instalador do Inova pela release privada do GitHub (service worker `public/download-sw.js`, escopo `/download/`);
 - envio do formulário de contato, direto para o Formspree.
 
 Para ver exatamente o que vai ser publicado, rode `npm run build` e abra a pasta `dist/`.
@@ -46,3 +47,4 @@ Também dá para disparar manualmente pelo botão **Run workflow** (`workflow_di
 - O `.env` (senhas) e `src/content/protected/` (texto claro) estão no `.gitignore` e **nunca vão para o GitHub**.
 - O build no Actions **não precisa de senha**: ele publica só o payload já criptografado em `src/data/encrypted/*.json`.
 - Ao alterar um case protegido, rode `npm run encrypt-cases` localmente e commite os JSONs gerados.
+- Cases com `release` (download do Inova) buscam a release mais recente no navegador: uma versão nova do app aparece no site sem novo deploy. Só é preciso criptografar de novo quando o `PROJECT_RELEASE_TOKEN_*` for trocado (detalhes em `src/content/protected/README.md`).
